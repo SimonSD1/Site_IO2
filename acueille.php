@@ -47,6 +47,7 @@
         $resultat=$conn->query($recherche);
         $resultat = $resultat->fetch_assoc();
         if($resultat["admin"]==1){
+            $_SESSION['admin']=true;
             return true;
         }
         else{
@@ -54,13 +55,16 @@
         }
     }
 
+    function pageAcceuilleAdmin($conn){
+        echo " <a href=\"pageAdmin.php\">page admin</a>";
+        echo "<br>";
+        echo "<br>";
+    }
+
     function pageUtilisateurConnecte($conn){
         echo "<a href=\"monProfile.php\">mon profil</a><br><br><a href=\"deconnexion.php\">deconnexion</a><br><br>";
         if(estAdmin($conn)){
-            echo "
-            vous etes admin
-            <br>
-            <br>";
+            pageAcceuilleAdmin($conn);
         }
         echo " recherche : 
             <form action =\"\" method=\"GET\">

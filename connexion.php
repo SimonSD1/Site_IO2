@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ?>
     <br>
     <br>
-    <p>Pas de compte : <a href="inscription.html">inscription</a></p>
+    <p>Pas de compte : <a href="inscription.php">inscription</a></p>
 </body>
 </html>
 
