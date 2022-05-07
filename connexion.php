@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $reussite="pas de mot de passe";
     }
     else if (empty($_POST["pseudoCO"])){
-        $reussite="pas de mail";
+        $reussite="pas de pseudo";
     }
     else{
         $pseudo = htmlspecialchars($_POST["pseudoCO"]);

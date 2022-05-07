@@ -3,6 +3,7 @@
     session_start();
 
     include("mysql.php");
+    include("fonctionCourante.php");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id=$_SESSION['id'];
@@ -19,12 +20,7 @@
                 echo "error";
             }
             
-            $demandeMoyenne = "SELECT avg(note) FROM avis WHERE article='$articleId'";
-            $moyenne = $conn->query($demandeMoyenne);
-            $moyenne = $moyenne->fetch_array()[0];
-
-            $ajoutDansArticle=$conn->prepare("UPDATE articles SET note = '$moyenne' WHERE id='$articleId'");
-            $ajoutDansArticle->execute();
+            majMoyenne($conn, $articleId);
         }
         else{
             $resultatNote = $conn->prepare("INSERT INTO avis (note ,article, utilisateur) VALUE(?, ?, ?)");
@@ -32,28 +28,11 @@
             if(!$resultatNote->execute()){
                 echo "error";
             }
-            $demandeMoyenne = "SELECT avg(note) FROM avis WHERE article='$id'";
-            $moyenne = $conn->query($demandeMoyenne);
-            $moyenne = $moyenne->fetch_array()[0];
-
-            $ajoutDansArticle=$conn->prepare("UPDATE articles SET note = '$moyenne' WHERE id='$articleId'");
-            $ajoutDansArticle->execute();
+            majMoyenne($conn, $articleId);
         }        
     }
 
-    function estAdmin($conn){
-        $id=$_SESSION['id'];
-        $recherche="SELECT * FROM utilisateurs WHERE id='$id'";
-        $resultat=$conn->query($recherche);
-        $resultat = $resultat->fetch_assoc();
-        if($resultat["admin"]==1){
-            $_SESSION['admin']=true;
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+    
 
     function pageAcceuilleAdmin($conn){
         echo " <a href=\"pageAdmin.php\">page admin</a>";

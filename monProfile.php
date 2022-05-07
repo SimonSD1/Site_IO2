@@ -3,7 +3,6 @@ session_start();
 include("mysql.php");
 
 function pageUtilisateurConnecte($conn){
-    $id = $_SESSION['id'];
     echo "
         <h1>Profil de ".$_SESSION["pseudo"]."</h1>
         <br>
