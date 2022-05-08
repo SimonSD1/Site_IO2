@@ -3,6 +3,7 @@
     include("mysql.php");
     include("fonctionCourante.php");
 
+    //supprime un avis et met a jour la moyenne de l'article a qui ont a enlevé une note
     function supprimeAvis($conn, $idAvis, $idArticle){
         $requete="DELETE FROM avis WHERE id = '$idAvis' ";
         $requete= $conn->query($requete);
@@ -10,12 +11,14 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        //si on souhaite supprimer un avis on fait simplement apelle a supprimeAvis
         if(isset($_POST['avis']) && !empty($_POST['avis'])){
             $idAvis=$_POST['avis'];
             $idArticle=$_POST['idArticle'];
             supprimeAvis($conn, $idAvis, $idArticle);
             
         }
+        //pour supprimer un utilisateur, on supprime tout ses avis puis on supprime l'utilisateur
         if(isset($_POST['utilisateur']) && !empty($_POST['utilisateur'])){
             $idUtilisateur=$_POST['utilisateur'];
             $rechercheDesAvis="SELECT id, article FROM avis WHERE utilisateur='$idUtilisateur'";
@@ -37,6 +40,7 @@
         $resultat = $conn->query($demande);
 
         echo "liste des avis <br>";
+        // recupere tout les utilisateurs et affiche un bouton supprimer
         while ($aviUtilisateur = $resultat->fetch_assoc()){
             echo $aviUtilisateur['pseudo']." a mis la note de ".$aviUtilisateur['note']." a l'article ".$aviUtilisateur['titre'];
             echo 
@@ -54,6 +58,7 @@
         $demande = "SELECT pseudo, id FROM utilisateurs WHERE id!='$id'"; 
         $resultat = $conn->query($demande);
 
+        //affiche tout les utilisateur different de l'admin et affiche un bouton supprimer
         echo "liste des utilisateurs <br>";
         while ($utilisateur = $resultat->fetch_assoc()){
             echo $utilisateur['pseudo'];
@@ -66,11 +71,9 @@
             ;
             echo "<br>";
         }
-
-
         echo "<br>
             <br>
-            <a href=\"acueille.php\">retour a l'acueille</a>
+            <a href=\"accueil.php\">retour a l'acueille</a>
         ";
     }
 ?>
@@ -88,7 +91,7 @@
 
     <?php 
         if(!estAdmin($conn)){
-            header("Location: acueille.php");
+            header("Location: accueil.php");
         }
         else{
             pageAdmin($conn);

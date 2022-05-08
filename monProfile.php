@@ -9,6 +9,7 @@ function pageUtilisateurConnecte($conn){
         <br>
         <p>Mes avis :</p>
         ";
+        // on affiche tout les avis qu'un utilisateur a mis
         $id = $_SESSION['id'];
         $demande = "SELECT avis.note, articles.titre FROM avis, articles WHERE avis.utilisateur='$id' and articles.id=avis.article;"; 
         $resultat = $conn->query($demande);
@@ -18,7 +19,7 @@ function pageUtilisateurConnecte($conn){
         }
         echo "<br>
             <br>
-            <a href=\"acueille.php\">retour a l'acueille</a>
+            <a href=\"accueil.php\">retour a l'accueil</a>
         ";
 }
 
@@ -35,7 +36,7 @@ function pageUtilisateurConnecte($conn){
 
     <?php 
         if(!isset($_SESSION["pseudo"])){
-            header("Location: acueille.php");
+            header("Location: accueil.php");
         }
         else{
             pageUtilisateurConnecte($conn);

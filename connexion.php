@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($rows==1){
             $_SESSION['pseudo'] = $pseudo;
             $_SESSION['id']=$info['id'];
-            header("Location: acueille.php");
+            header("Location: accueil.php");
         }else{
         $reussite="Le nom d'utilisateur ou le mot de passe est incorrect.";
         }

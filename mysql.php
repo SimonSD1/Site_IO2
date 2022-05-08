@@ -1,5 +1,6 @@
 <?php
 
+// fichier qui sert a la connection a la base de donné
 
 $host="localhost";
 $username="root";

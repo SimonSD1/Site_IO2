@@ -11,9 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $reussite="pas de mail";
     }
     else{
-        $pseudo = htmlspecialchars($_POST["pseudo"]);
-        $mdp  = sha1(htmlspecialchars($_POST["mdp"]));
+        
+        $pseudo = htmlspecialchars($_POST["pseudo"]); //evite les injections sql
+        $mdp  = sha1(htmlspecialchars($_POST["mdp"])); // sha1 pour stocker le mdp de facon secutisé
 
+        //on regarde le nombre d'utilisateur qui a le mdp et le pseudo donné
         $queryPseudo = "SELECT * FROM `utilisateurs` WHERE pseudo='$pseudo'";
         $resultPseudo = mysqli_query($conn,$queryPseudo) or die(mysql_error());
         $rowsPseudo = mysqli_num_rows($resultPseudo);
@@ -22,9 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resultMdp = mysqli_query($conn,$queryMdp) or die(mysql_error());
         $rowsMdp = mysqli_num_rows($resultMdp);
 
-        if($rowsPseudo>=1 or $rowsMdp>=1){
+        
+        if($rowsPseudo==1 or $rowsMdp==1){
             $reussite="pseudo ou mdp deja pris ";
         }else{
+            // si le mdp et le pseudo sont libre on ajoute l'utilisateur
             $injection = $conn->prepare("INSERT INTO utilisateurs (pseudo, mdp) VALUE(?, ?)");
             $injection->bind_param('ss', $pseudo, $mdp);
             if(!$injection->execute()){
@@ -73,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         ?>
     </p>
-    <a href="acueille.php" name="retour">retour</a>
+    <a href="accueil.php">retour à l'accueil</a>
     <br>
 </body>
 </html>
