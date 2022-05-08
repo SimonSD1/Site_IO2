@@ -1,6 +1,11 @@
 <?php
     session_start();
 
+    if(!isset($_SESSION["pseudo"])){
+        header("Location: accueil.php");
+    }
+    
+
     include("mysql.php");
 
     if(!isset($_GET['article']) ){
