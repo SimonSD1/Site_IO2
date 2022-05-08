@@ -49,6 +49,14 @@
             echo "<br>";
         }
     }
+
+    function afficheTexte($conn){
+        $article_id=$_GET['article'];
+        $demande="SELECT texte FROM articles WHERE id='$article_id'";
+        $resultat = $conn->query($demande);
+        $resultat = $resultat->fetch_array()[0];
+        echo $resultat;
+    }
     
 ?>
 
@@ -57,7 +65,12 @@
     <body>
         <h1><?php nom($conn) ?></h1>
         <br>
-        <?php 
+        <?php
+            afficheTexte($conn);
+        ?>
+        <br>
+        <br>
+        <?php
             affiche_avis($conn);
         ?>
         <br>
