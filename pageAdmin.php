@@ -32,6 +32,21 @@
             $supprUtilisateur="DELETE FROM utilisateurs WHERE id='$idUtilisateur'";
             $supprUtilisateur=$conn->query($supprUtilisateur);
         }
+
+        //pour ajouter un pays
+        if(isset($_POST['titre']) && !empty($_POST['titre'])){
+            $titre = htmlspecialchars($_POST['titre']);
+            $texte= htmlspecialchars($_POST['texte']);
+            $injection = $conn->prepare("INSERT INTO articles (titre, texte) VALUE(?, ?)");
+            $injection->bind_param('ss', $titre, $texte);
+            if(!$injection->execute()){
+                echo "error";
+                $reussite="ajout echoué";
+            }
+            else{
+                $reussite="ajout effectué";
+            }
+        }
         
     }
 
@@ -97,5 +112,13 @@
             pageAdmin($conn);
         }
     ?>
+    <p>Ajouter un pays : </p>
+    <form method="POST" action="">
+        titre : <input type="text" name="titre" required maxLength="10">
+        <p>
+        texte : <input type="text" name="texte" required >
+        <p>
+        <input type="submit" value="ajouter">
+    </form>
     </body>
 </html>

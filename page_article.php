@@ -7,12 +7,22 @@
     
 
     include("mysql.php");
+    include("fonctionCourante.php");
 
     if(!isset($_GET['article']) ){
         header("Location: accueil.php");
     }
     if(empty($_GET['article']) ){
         header("Location: accueil.php");
+    }
+
+    //pour mettre la note pareil
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $note = $_POST['note'];
+        $article = $_POST['article'];
+        $id=$_SESSION['id'];
+        ajouteNote($conn, $note, $article, $id);
+
     }
 
     // recuper le nom de l'article a partir de son id
@@ -31,6 +41,11 @@
         $resultat = $conn->query($demande);
         while($avisUtilisateur = $resultat->fetch_assoc()){
             echo $avisUtilisateur['pseudo']." a mis la note de : ".$avisUtilisateur['note'];
+            echo "<form action =\"\" method=\"POST\">
+                <input type=\"hidden\" name=\"note\" value=\"".$avisUtilisateur['note']."\">
+                <input type=\"hidden\" name=\"article\" value=\"".$article_id."\">
+                <input type=\"submit\" value=\"pareil\">
+            ";
             echo "<br>";
         }
     }

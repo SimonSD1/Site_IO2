@@ -11,28 +11,8 @@
         $articleId=$_POST['article'];
         $note = $_POST['note'];
 
-        //on regarde si une note est deja presente
-        $avisEstPtresent = "SELECT * FROM avis WHERE article ='$articleId' and utilisateur='$id' ";
-        $avisEstPtresent = $conn->query($avisEstPtresent);
-        $nombreDAvis= mysqli_num_rows($avisEstPtresent);
+        ajouteNote($conn,$note,$articleId,$id);
         
-        //si il y en a deja une, on la met a jour 
-        if($nombreDAvis>=1){
-            $resultatNote = $conn->prepare("UPDATE avis SET note = '$note' WHERE article='$articleId' and utilisateur='$id'");
-            if(!$resultatNote->execute()){
-                echo "error";
-            }
-            majMoyenne($conn, $articleId);
-        }
-        //sinon on ajoute
-        else{
-            $resultatNote = $conn->prepare("INSERT INTO avis (note ,article, utilisateur) VALUE(?, ?, ?)");
-            $resultatNote->bind_param('sss',$_POST["note"],$_POST["article"],$_SESSION["id"]);
-            if(!$resultatNote->execute()){
-                echo "error";
-            }
-            majMoyenne($conn, $articleId);
-        }        
     }
 
     
@@ -108,8 +88,7 @@
                 <input type=\"submit\">
                 </form>
                 <br>
-                <a href=\"page_article.php?article=".$id."\">voir l'article</a>"
-
+                <a href=\"page_article.php?article=".$id."\">voir les notes</a>"
             ;
         }
     }
